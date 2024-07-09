@@ -19,20 +19,16 @@ class Point():
     def printCoord(self):
         print(f'\nO ponto {self._n} possui as coordenadas: ({self._x}, {self._y}).') 
 
-class Line(Point):
+class Line():
     
     def __init__(self, n, x1, y1, x2, y2):
         self._n = n
-        self._x1 = x1
-        self._y1 = y1
-        self._x2 = x2
-        self._y2 = y2
-
+        self._p1 = Point(n, x1, y1)
+        self._p2 = Point(n, x2, y2)
+    
     def updateCoord(self, x1, y1, x2, y2):
-        self._x1 = x1
-        self._y1 = y1
-        self._x2 = x2
-        self._y2 = y2
+        self._p1.updateCoord(x1,y1)
+        self._p2.updateCoord(x2,y2)
     
     def getType(self):
         return 'Line_'
@@ -62,7 +58,6 @@ class Line(Point):
 class Circle(Point):
     
     def __init__(self,n,x,y,radius):
-        
         super().__init__(n, x, y)
         self.radius= radius
         
@@ -100,7 +95,7 @@ class Circle(Point):
         print(f'O diâmetro do círculo {self._n} é: {diameter:.2f} cm')
         return diameter
 
-class Rectangle(Point):
+class Rectangle():
     
     def __init__(self, n, x1, y1, x2, y2):
         self._n = n
@@ -138,7 +133,7 @@ class Rectangle(Point):
          return (min(self._p1._x, self._p2._x) <= pt._x <= max(self._p1._x, self._p2._x) and
                 min(self._p1._y, self._p2._y) <= pt._y <= max(self._p1._y, self._p2._y))
 
-class Triangle(Point):
+class Triangle():
     def __init__(self, n, x1, y1, x2, y2, x3, y3):
         self._n = n
         self._p1 = Point(n, x1, y1)
