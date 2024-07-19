@@ -1,6 +1,5 @@
 import math
 class Point():
-
     def __init__(self,n,x,y):
         self._n= n
         self._x= x
