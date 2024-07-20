@@ -17,6 +17,12 @@ def workspace():
     print('\nOs detalhes de cada forma podem ser observados abaixo:')
     dashboard.printDetails()
 
+    print(f'\nVerificando se o retângulo {rect1.getNumber()} é um quadrado:')
+    rect1.isSquare()
+
+    print(f'\nVerificando se o retângulo {rect1.getNumber()} intersecta com o retângulo {rect2.getNumber()}')
+    rect1.intersects(rect2)
+
     print(f'\nRemoção da(s) forma(s) {rect2.getType()}{rect2.getNumber()}')
     rect2.printCoord()
     dashboard.removeShape(rect2)
@@ -35,8 +41,17 @@ def workspace():
     rect1.diagonal()
 
     print('\nVerificando se um ponto está dentro do retângulo:')
-    print(f'O ponto {pt1.getNumber()} está dentro do retângulo {rect1.getNumber()}? {rect1.pointIn(pt1)}')
-    print(f'O ponto {pt2.getNumber()} está dentro do retângulo {rect1.getNumber()}? {rect1.pointIn(pt2)}')
+    rect1.pointIn(pt1)
+    rect1.pointIn(pt2)
+
+    print('\nRotacionando o retângulo em torno do seu centro por um dado ângulo:')
+    rect1.rotate(90)
+
+    print(f'\nTransladando o retângulo {rect1.getNumber()} por um fator dado:')
+    rect1.translate(2,2)
+
+    print(f'\nEscalando o retângulo {rect1.getNumber()} por um fator dado:')
+    rect1.scale(2)
 
     print("\nSuccessful exit")
 if __name__ == "__main__":

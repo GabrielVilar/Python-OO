@@ -165,7 +165,7 @@ class Circle(Point):
         """ Escala o raio do círculo pelo fator dado """
         self._radius *= factor
         print(f'O círculo {self._n} foi escalado para raio {self._radius:.2f}')
-        
+
 class Rectangle():
     
     def __init__(self, n, x1, y1, x2, y2):
@@ -201,8 +201,13 @@ class Rectangle():
         return perimeter
     
     def pointIn(self, pt):
-         return (min(self._p1._x, self._p2._x) <= pt._x <= max(self._p1._x, self._p2._x) and
-                min(self._p1._y, self._p2._y) <= pt._y <= max(self._p1._y, self._p2._y))
+        is_inside = (min(self._p1._x, self._p2._x) <= pt._x <= max(self._p1._x, self._p2._x) and
+                     min(self._p1._y, self._p2._y) <= pt._y <= max(self._p1._y, self._p2._y))
+        if is_inside:
+            print(f'O ponto {pt._n} está dentro do retângulo {self._n}.')
+        else:
+            print(f'O ponto {pt._n} não está dentro do retângulo {self._n}.')
+        return is_inside
     
     def diagonal(self):
         width = abs(self._p2._x - self._p1._x)
@@ -210,6 +215,67 @@ class Rectangle():
         diagonal = math.sqrt(width**2 + height**2)
         print(f'A diagonal do retângulo {self._n} é {diagonal:.2f}')
         return diagonal
+    
+    def rotate(self, angle):
+        """ Rotaciona o retângulo em torno do seu centro por um dado ângulo """
+        center_x = (self._p1._x + self._p2._x) / 2
+        center_y = (self._p1._y + self._p2._y) / 2
+        angle_rad = math.radians(angle)
+
+        def rotate_point(px, py):
+            translated_x = px - center_x
+            translated_y = py - center_y
+            rotated_x = translated_x * math.cos(angle_rad) - translated_y * math.sin(angle_rad)
+            rotated_y = translated_x * math.sin(angle_rad) + translated_y * math.cos(angle_rad)
+            return rotated_x + center_x, rotated_y + center_y
+
+        new_p1_x, new_p1_y = rotate_point(self._p1._x, self._p1._y)
+        new_p2_x, new_p2_y = rotate_point(self._p2._x, self._p2._y)
+        
+        self.updateCoord(new_p1_x, new_p1_y, new_p2_x, new_p2_y)
+        print(f'O retângulo {self._n} foi rotacionado em {angle} graus.')
+
+    def isSquare(self):
+        """ Verifica se o retângulo é um quadrado """
+        width = abs(self._p2._x - self._p1._x)
+        height = abs(self._p2._y - self._p1._y)
+        if width == height:
+            print(f'O retângulo {self._n} é um quadrado.')
+            return True
+        else:
+            print(f'O retângulo {self._n} não é um quadrado.')
+            return False
+        
+    def translate(self, dx, dy):
+        """ Translada o retângulo por (dx, dy) """
+        self._p1._x += dx
+        self._p1._y += dy
+        self._p2._x += dx
+        self._p2._y += dy
+        print(f'O retângulo {self._n} foi transladado para ({self._p1._x}, {self._p1._y}) e ({self._p2._x}, {self._p2._y}).')
+
+    def scale(self, factor):
+        """ Escala o retângulo por um dado fator """
+        center_x = (self._p1._x + self._p2._x) / 2
+        center_y = (self._p1._y + self._p2._y) / 2
+        new_width = abs(self._p2._x - self._p1._x) * factor
+        new_height = abs(self._p2._y - self._p1._y) * factor
+        self._p1._x = center_x - new_width / 2
+        self._p2._x = center_x + new_width / 2
+        self._p1._y = center_y - new_height / 2
+        self._p2._y = center_y + new_height / 2
+        print(f'O retângulo {self._n} foi escalado para um novo tamanho com fator {factor}.')
+
+    def intersects(self, other_rectangle):
+        """ Verifica se este retângulo intersecta com outro retângulo """
+        if (self._p1._x < other_rectangle._p2._x and self._p2._x > other_rectangle._p1._x and
+            self._p1._y < other_rectangle._p2._y and self._p2._y > other_rectangle._p1._y):
+            print(f'O retângulo {self._n} intersecta com o retângulo {other_rectangle._n}.')
+            return True
+        else:
+            print(f'O retângulo {self._n} não intersecta com o retângulo {other_rectangle._n}.')
+            return False
+
 class Triangle():
     def __init__(self, n, x1, y1, x2, y2, x3, y3):
         self._n = n
