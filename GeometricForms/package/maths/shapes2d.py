@@ -130,13 +130,42 @@ class Circle(Point):
         print(f'A circunferência do círculo {self._n} é {circumference:.2f}')
         return circumference
     
-    # def isTangent(self, other_circle):
-    #     distance_between_centers = self._center.distanceTo(other_circle._center)
-    #     radius_sum = self._radius + other_circle._radius
-    #     radius_diff = abs(self._radius - other_circle._radius)
-    #     return distance_between_centers == radius_sum or distance_between_centers == radius_diff
+    def center(self):
+        """ Retorna o centro do círculo """
+        return (self._x, self._y)
+    
+    def isTangent(self, other_circle):
+        """ Verifica se este círculo é tangente ao outro círculo """
+        distance_between_centers = math.sqrt((self._x - other_circle._x)** 2 + (self._y - other_circle._y)**2)
+        radius_sum = self._radius + other_circle._radius
+        radius_diff = abs(self._radius - other_circle._radius)
+        if distance_between_centers == radius_sum or distance_between_centers == radius_diff:
+            print(f'O círculo {self._n} é tangente ao círculo {other_circle._n}')
+            return True
+        else:
+            print(f'O círculo {self._n} não é tangente ao círculo {other_circle._n}')
+            return False
+    
+    def isConcentric(self, other_circle):
+        """ Verifica se este círculo é concêntrico com o outro círculo """
+        if self._x == other_circle._x and self._y == other_circle._y:
+            print(f'O círculo {self._n} é concêntrico com o círculo {other_circle._n}')
+            return True
+        else:
+            print(f'O círculo {self._n} não é concêntrico com o círculo {other_circle._n}')
+            return False
+    
+    def translate(self, dx, dy):
+        """ Translada o círculo por (dx, dy) """
+        self._x += dx
+        self._y += dy
+        print(f'O círculo {self._n} foi transladado para ({self._x}, {self._y})')
 
-
+    def scale(self, factor):
+        """ Escala o raio do círculo pelo fator dado """
+        self._radius *= factor
+        print(f'O círculo {self._n} foi escalado para raio {self._radius:.2f}')
+        
 class Rectangle():
     
     def __init__(self, n, x1, y1, x2, y2):

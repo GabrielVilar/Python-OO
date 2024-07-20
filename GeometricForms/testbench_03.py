@@ -18,23 +18,33 @@ def workspace():
     print('\nOs detalhes de cada forma podem ser observados abaixo:')
     dashboard.printDetails()
 
-    # circ1.isTangent(circ2)
+    print(f'\nVerificando se o circulo {circ1.getNumber()} é tangente ao circulo {circ2.getNumber()}:')
+    circ1.isTangent(circ2)
+
+    print(f'\nVerificando se o círculo {circ1.getNumber()} é concêntrico ao círculo {circ2.getNumber()}:')
+    circ1.isConcentric(circ2)
 
     print(f'\nRemoção da(s) forma(s) {circ2.getType()}{circ2.getNumber()}')
     circ2.printCoord()
     dashboard.removeShape(circ2)
     dashboard.showShapes()
 
-    print(f'\nVamos pegar uma das formas (círculo {circ1.getNumber()}) e atualizar:')
+    print(f'\nTransladando o centro do círculo {circ1.getNumber()}:')
+    circ1.translate(6,7)
 
+    print(f'\nEscalando o raio do círculo {circ1.getNumber()} por um determinado fator:')   
+    circ1.scale(7) 
+
+    print(f'\nVamos pegar uma das formas (círculo {circ1.getNumber()}) e atualizar:')
     my_copy_of_circ1= dashboard.getShape('Circle_1')
     my_copy_of_circ1.updateCoord(3,3,2)
     my_copy_of_circ1.printCoord()
 
-    print(f'\nCalculando a área o perímetro e o diâmetro do(s) círculo(s):')
+    print(f'\nCalculando a área o perímetro o diâmetro e a circunferência do(s) círculo(s):')
     circ1.area()
     circ1.perimeter()   
     circ1.diameter()
+    circ1.circumference()
 
     print("\nVerificando se o ponto está dentro do círculo:")
     print(f'O ponto {pt1.getNumber()} está dentro do círculo {circ1.getNumber()}? {circ1.pointIn(pt1)}')
