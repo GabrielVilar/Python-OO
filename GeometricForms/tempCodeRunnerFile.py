@@ -1,2 +1,1 @@
-:')
-    dashboard.printDetails()
+circ1.isTangent(circ2)

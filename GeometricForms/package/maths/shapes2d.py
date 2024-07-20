@@ -89,41 +89,53 @@ class Circle(Point):
     
     def __init__(self,n,x,y,radius):
         super().__init__(n, x, y)
-        self.radius= radius
+        self._radius= radius
         
     def getType(self):
         return 'Circle_'
         
     def updateCoord(self,x,y,radius):        
         super().updateCoord(x, y)
-        self.radius= radius
+        self._radius= radius
 
     def printCoord(self):
         print(f'\nO círculo {self._n} possui origem em: ({self._x}, {self._y})')
-        print(f'E o seu raio é {self.radius}')
+        print(f'E o seu raio é {self._radius}')
         
     def pointIn(self,pt):
         """ Verifica se o ponto está dentro deste círculo"""
         squared_distance = math.sqrt(((self._x - pt._x)**2 + (self._y - pt._y)**2))
-        return squared_distance <= self.radius
+        return squared_distance <= self._radius
     
     def area(self):
         """ calcula a área deste circulo e mostra no terminal"""
-        area = math.pi * (self.radius ** 2)
+        area = math.pi * (self._radius ** 2)
         print(f'A área do círculo {self._n} é {area:.2f} cm')
         return area
     
     def perimeter(self):
         """ calcula o perímetro deste círculo e mostra no terminal"""
-        perimeter = 2 * math.pi * self.radius
+        perimeter = 2 * math.pi * self._radius
         print(f'O perímetro do círculo {self._n} é {perimeter:.2f} cm')
         return perimeter
     
     def diameter(self):
         """ calcula o diâmetro deste círculo e mostra no terminal"""
-        diameter = 2 * self.radius
+        diameter = 2 * self._radius
         print(f'O diâmetro do círculo {self._n} é: {diameter:.2f} cm')
         return diameter
+    
+    def circumference(self):
+        circumference = 2 * math.pi * self._radius
+        print(f'A circunferência do círculo {self._n} é {circumference:.2f}')
+        return circumference
+    
+    # def isTangent(self, other_circle):
+    #     distance_between_centers = self._center.distanceTo(other_circle._center)
+    #     radius_sum = self._radius + other_circle._radius
+    #     radius_diff = abs(self._radius - other_circle._radius)
+    #     return distance_between_centers == radius_sum or distance_between_centers == radius_diff
+
 
 class Rectangle():
     

@@ -18,6 +18,8 @@ def workspace():
     print('\nOs detalhes de cada forma podem ser observados abaixo:')
     dashboard.printDetails()
 
+    # circ1.isTangent(circ2)
+
     print(f'\nRemoção da(s) forma(s) {circ2.getType()}{circ2.getNumber()}')
     circ2.printCoord()
     dashboard.removeShape(circ2)
