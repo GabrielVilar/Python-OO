@@ -31,6 +31,9 @@ def workspace():
     rect1.area()
     rect1.perimeter()
 
+    print('\nCalculando a diagonal do retângulo:')
+    rect1.diagonal()
+
     print('\nVerificando se um ponto está dentro do retângulo:')
     print(f'O ponto {pt1.getNumber()} está dentro do retângulo {rect1.getNumber()}? {rect1.pointIn(pt1)}')
     print(f'O ponto {pt2.getNumber()} está dentro do retângulo {rect1.getNumber()}? {rect1.pointIn(pt2)}')

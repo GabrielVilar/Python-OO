@@ -131,7 +131,13 @@ class Rectangle():
     def pointIn(self, pt):
          return (min(self._p1._x, self._p2._x) <= pt._x <= max(self._p1._x, self._p2._x) and
                 min(self._p1._y, self._p2._y) <= pt._y <= max(self._p1._y, self._p2._y))
-
+    
+    def diagonal(self):
+        width = abs(self._p2._x - self._p1._x)
+        height = abs(self._p2._y - self._p1._y)
+        diagonal = math.sqrt(width**2 + height**2)
+        print(f'A diagonal do retângulo {self._n} é {diagonal:.2f}')
+        return diagonal
 class Triangle():
     def __init__(self, n, x1, y1, x2, y2, x3, y3):
         self._n = n
