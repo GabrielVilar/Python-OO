@@ -30,41 +30,61 @@ class Point():
         return Point(0, mid_x, mid_y)
 
 class Line():
-    
     def __init__(self, n, x1, y1, x2, y2):
         self._n = n
         self._p1 = Point(n, x1, y1)
         self._p2 = Point(n, x2, y2)
-    
+
     def updateCoord(self, x1, y1, x2, y2):
-        self._p1.updateCoord(x1,y1)
-        self._p2.updateCoord(x2,y2)
-    
+        self._p1.updateCoord(x1, y1)
+        self._p2.updateCoord(x2, y2)
+
     def getType(self):
         return 'Line_'
-        
+
     def getNumber(self):
         return self._n
 
     def printCoord(self):
-        print(f'\nA linha {self._n} possui as coord: ({self._x1}, {self._y1}) e ({self._x2}, {self._y2}).')
-        
+        print(f'\nA linha {self._n} possui as coord: ({self._p1._x}, {self._p1._y}) e ({self._p2._x}, {self._p2._y}).')
+
     def length(self):
         """ Calcula o comprimento da linha """
-        length = math.sqrt((self._x2 - self._x1) ** 2 + (self._y2 - self._y1) ** 2)
+        length = math.sqrt((self._p2._x - self._p1._x) ** 2 + (self._p2._y - self._p1._y) ** 2)
         print(f'O comprimento da linha {self._n} é {length:.2f} cm')
         return length
-    
+
     def pointOnLine(self, pt):
         """ Verifica se um ponto está sobre a linha """
-        tolerance=1e-9
-        if (self._x2 - self._x1) == 0:  # Linha vertical
-            return abs(pt._x - self._x1) < tolerance
+        tolerance = 1e-9
+        if (self._p2._x - self._p1._x) == 0:  # Linha vertical
+            return abs(pt._x - self._p1._x) < tolerance
         else:
-            slope = (self._y2 - self._y1) / (self._x2 - self._x1)
-            intercept = self._y1 - slope * self._x1
-            return abs(pt._y - (slope * pt._x + intercept)) < tolerance       
-
+            slope = (self._p2._y - self._p1._y) / (self._p2._x - self._p1._x)
+            intercept = self._p1._y - slope * self._p1._x
+            return abs(pt._y - (slope * pt._x + intercept)) < tolerance
+        
+    def verifyVertical(self):
+        if self._p2._x == self._p1._x:
+            print(f'\nA linha {self._n} é uma linha vertical portanto não tem uma inclinação definida')
+            return True
+        return False
+    
+    def slope(self):
+        if self.verifyVertical() == False:
+            slope = (self._p2._y - self._p1._y) / (self._p2._x - self._p1._x)
+            print(f'A inclinação da linha {self._n} é {slope:.2f}')
+            if slope == 0:
+                print(f'A linha {self._n} é uma linha horizontal')
+            return slope 
+    
+    def isParallel(self, other_line):
+        if self.slope() == other_line.slope():
+            print(f'A linha {self._n} e a linha {other_line._n} são paralelas')
+        else:
+            print(f'A linha {self._n} e a linha {other_line._n} não são paralelas')
+        return
+        
 class Circle(Point):
     
     def __init__(self,n,x,y,radius):
