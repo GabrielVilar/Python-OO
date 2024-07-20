@@ -14,6 +14,12 @@ def workspace():
     print('\nOs detalhes de cada forma podem ser observados abaixo:')
     dashboard.printDetails()
 
+    print(f'\nCalculando a distância entre o ponto {point1.getNumber()} e o ponto {point2.getNumber()}')
+    point1.distanceTo(point2)
+
+    print(f'\nCalculando o ponto médio entre o ponto {point1.getNumber()} e o ponto {point2.getNumber()}')
+    point1.midpoint(point2)
+
     print(f'\nRemovendo o ponto {point2.getNumber()}')
     point2.printCoord()
     dashboard.removeShape(point2)

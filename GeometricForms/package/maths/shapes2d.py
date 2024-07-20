@@ -18,6 +18,17 @@ class Point():
     def printCoord(self):
         print(f'\nO ponto {self._n} possui as coordenadas: ({self._x}, {self._y}).') 
 
+    def distanceTo(self, other_point):
+        distance = math.sqrt((self._x - other_point._x) ** 2 + (self._y - other_point._y) ** 2)
+        print(f'A distância do ponto {self._n} até o ponto {other_point._n} é de {distance:.2f} cm')
+        return distance
+    
+    def midpoint(self, other_point):
+        mid_x = (self._x + other_point._x) / 2
+        mid_y = (self._y + other_point._y) / 2
+        print(f'O ponto médio entre o ponto {self._n} e o ponto {other_point._n} é ({mid_x}, {mid_y})')
+        return Point(0, mid_x, mid_y)
+
 class Line():
     
     def __init__(self, n, x1, y1, x2, y2):
