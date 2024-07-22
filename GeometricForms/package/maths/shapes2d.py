@@ -296,7 +296,27 @@ class Triangle():
 
     def printCoord(self):
         print(f'\nO triângulo {self._n} possui as coord: ({self._p1._x}, {self._p1._y}), ({self._p2._x}, {self._p2._y}) e ({self._p3._x}, {self._p3._y}).')
+    
+    def classifyTriangle(self):
+        side1 = math.sqrt((self._p2._x - self._p1._x) ** 2 + (self._p2._y - self._p1._y) ** 2)
+        side2 = math.sqrt((self._p3._x - self._p2._x) ** 2 + (self._p3._y - self._p2._y) ** 2)
+        side3 = math.sqrt((self._p1._x - self._p3._x) ** 2 + (self._p1._y - self._p3._y) ** 2)
+    
+        # Round the side lengths
+        side1 = round(side1)
+        side2 = round(side2)
+        side3 = round(side3)
+
+        if side1 == side2 == side3:
+            triangle_type = 'Equilateral'
+        elif side1 == side2 or side2 == side3 or side1 == side3:
+            triangle_type = 'Isosceles'
+        else:
+            triangle_type = 'Scalene'
         
+        print(f'O triângulo {self._n} é {triangle_type}.')
+        return triangle_type
+    
     def area(self):
         area = abs((self._p1._x * (self._p2._y - self._p3._y) + self._p2._x * (self._p3._y - self._p1._y) + self._p3._x * (self._p1._y - self._p2._y)) / 2)
         print(f'A área do triângulo {self._n} é {area:.2f}')
@@ -310,6 +330,62 @@ class Triangle():
         print(f'O perímetro do triângulo {self._n} é {perimeter:.2f}')
         return perimeter
     
+    def circumcircle(self):
+        """Calculando o centro do círculo que passa por todos os pontos do triângulo"""
+        A = self._p1._x * (self._p2._y - self._p3._y) + self._p2._x * (self._p3._y - self._p1._y) + self._p3._x * (self._p1._y - self._p2._y)
+        D = (self._p1._x**2 + self._p1._y**2) * (self._p2._y - self._p3._y) + (self._p2._x**2 + self._p2._y**2) * (self._p3._y - self._p1._y) + (self._p3._x**2 + self._p3._y**2) * (self._p1._y - self._p2._y)
+        E = (self._p1._x**2 + self._p1._y**2) * (self._p3._x - self._p2._x) + (self._p2._x**2 + self._p2._y**2) * (self._p1._x - self._p3._x) + (self._p3._x**2 + self._p3._y**2) * (self._p2._x - self._p1._x)
+        F = (self._p1._x**2 + self._p1._y**2) * (self._p2._x * self._p3._y - self._p3._x * self._p2._y) + (self._p2._x**2 + self._p2._y**2) * (self._p3._x * self._p1._y - self._p1._x * self._p3._y) + (self._p3._x**2 + self._p3._y**2) * (self._p1._x * self._p2._y - self._p2._x * self._p1._y)
+        # Assegurando que A é positivo
+        if A < 0:
+            A = -A
+            D = -D
+            E = -E
+            F = -F
+
+        circumcenter_x = D / (2 * A)
+        circumcenter_y = E / (2 * A)
+        circumradius = math.sqrt((D**2 + E**2 - 4*A*F) / (4 * A**2))
+        
+        print(f'\nO circuncírculo do triângulo {self._n} tem centro em ({circumcenter_x:.2f}, {circumcenter_y:.2f}) e raio {circumradius:.2f}')
+        return (circumcenter_x, circumcenter_y, circumradius)
+    
+    def incircle(self):
+        """Calculando o centro do círculo que é tangente de todos os lados do triângulo e cabe dentro"""
+        side1 = math.sqrt((self._p2._x - self._p1._x) ** 2 + (self._p2._y - self._p1._y) ** 2)
+        side2 = math.sqrt((self._p3._x - self._p2._x) ** 2 + (self._p3._y - self._p2._y) ** 2)
+        side3 = math.sqrt((self._p1._x - self._p3._x) ** 2 + (self._p1._y - self._p3._y) ** 2)
+        perimeter = side1 + side2 + side3
+        incenter_x = (side1 * self._p3._x + side2 * self._p1._x + side3 * self._p2._x) / perimeter
+        incenter_y = (side1 * self._p3._y + side2 * self._p1._y + side3 * self._p2._y) / perimeter
+        s = perimeter / 2
+        area = self.area()
+        inradius = area / s
+        print(f'O incentro do triângulo {self._n} está em ({incenter_x:.2f}, {incenter_y:.2f}) com raio {inradius:.2f}')
+        return (incenter_x, incenter_y, inradius)
+    
+    def translate(self, dx, dy):
+        self._p1._x += dx
+        self._p1._y += dy
+        self._p2._x += dx
+        self._p2._y += dy
+        self._p3._x += dx
+        self._p3._y += dy
+        print(f'O triângulo {self._n} foi transladado para ({self._p1._x}, {self._p1._y}), ({self._p2._x}, {self._p2._y}) e ({self._p3._x}, {self._p3._y}).')
+
+    def scale(self, factor):
+        center_x = (self._p1._x + self._p2._x + self._p3._x) / 3
+        center_y = (self._p1._y + self._p2._y + self._p3._y) / 3
+        
+        def scale_point(px, py):
+            return center_x + factor * (px - center_x), center_y + factor * (py - center_y)
+        
+        self._p1._x, self._p1._y = scale_point(self._p1._x, self._p1._y)
+        self._p2._x, self._p2._y = scale_point(self._p2._x, self._p2._y)
+        self._p3._x, self._p3._y = scale_point(self._p3._x, self._p3._y)
+        
+        print(f'O triângulo {self._n} foi escalado com um fator de {factor}.')
+
     def pointIn(self, pt):
         def sign(p1, p2, p3):
             return (p1._x - p3._x) * (p2._y - p3._y) - (p2._x - p3._x) * (p1._y - p3._y)
@@ -318,4 +394,42 @@ class Triangle():
         b2 = sign(pt, self._p2, self._p3) < 0.0
         b3 = sign(pt, self._p3, self._p1) < 0.0
 
-        return (b1 == b2) and (b2 == b3)
+        is_inside = (b1 == b2) and (b2 == b3)
+        if is_inside:
+            print(f'O ponto {pt._n} está dentro do triângulo {self._n}.')
+        else:
+            print(f'O ponto {pt._n} não está dentro do triângulo {self._n}.')
+        return is_inside
+    
+    def angleA(self):
+        side1 = math.sqrt((self._p2._x - self._p1._x) ** 2 + (self._p2._y - self._p1._y) ** 2)
+        side2 = math.sqrt((self._p3._x - self._p2._x) ** 2 + (self._p3._y - self._p2._y) ** 2)
+        side3 = math.sqrt((self._p1._x - self._p3._x) ** 2 + (self._p1._y - self._p3._y) ** 2)
+        angle = math.acos((side2**2 + side3**2 - side1**2) / (2 * side2 * side3))
+        angle_deg = math.degrees(angle)
+        print(f'O ângulo A do triângulo {self._n} é {angle_deg:.2f} graus.')
+        return angle_deg
+
+    def angleB(self):
+        side1 = math.sqrt((self._p2._x - self._p1._x) ** 2 + (self._p2._y - self._p1._y) ** 2)
+        side2 = math.sqrt((self._p3._x - self._p2._x) ** 2 + (self._p3._y - self._p2._y) ** 2)
+        side3 = math.sqrt((self._p1._x - self._p3._x) ** 2 + (self._p1._y - self._p3._y) ** 2)
+        angle = math.acos((side1**2 + side3**2 - side2**2) / (2 * side1 * side3))
+        angle_deg = math.degrees(angle)
+        print(f'O ângulo B do triângulo {self._n} é {angle_deg:.2f} graus.')
+        return angle_deg
+
+    def angleC(self):
+        side1 = math.sqrt((self._p2._x - self._p1._x) ** 2 + (self._p2._y - self._p1._y) ** 2)
+        side2 = math.sqrt((self._p3._x - self._p2._x) ** 2 + (self._p3._y - self._p2._y) ** 2)
+        side3 = math.sqrt((self._p1._x - self._p3._x) ** 2 + (self._p1._y - self._p3._y) ** 2)
+        angle = math.acos((side1**2 + side2**2 - side3**2) / (2 * side1 * side2))
+        angle_deg = math.degrees(angle)
+        print(f'O ângulo C do triângulo {self._n} é {angle_deg:.2f} graus.')
+        return angle_deg
+
+    def centroid(self):
+        centroid_x = (self._p1._x + self._p2._x + self._p3._x) / 3
+        centroid_y = (self._p1._y + self._p2._y + self._p3._y) / 3
+        print(f'O centróide do triângulo {self._n} está em ({centroid_x:.2f}, {centroid_y:.2f}).')
+        return (centroid_x, centroid_y)

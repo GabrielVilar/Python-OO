@@ -1,1 +1,0 @@
-circ1.isTangent(circ2)
