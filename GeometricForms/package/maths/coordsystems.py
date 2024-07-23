@@ -1,4 +1,4 @@
-from package.maths.shapes2d import *
+from maths.shapes2d import *
 
 class CartesianBoard():
     
@@ -6,20 +6,23 @@ class CartesianBoard():
         self.shapes= {}
         
     def insertShape(self, shape):
-        self.shapes[shape.getType() + str(shape.getNumber())]= shape
+        key = shape.getType() + str(shape.getNumber())
+        self.shapes[key] = shape
         
     def removeShape(self, shape):
         del self.shapes[shape.getType() + str(shape.getNumber())]
             
     def showShapes(self):
         print('\nEste plano cartesiano possui a(s) seguinte(s) forma(s):')
-        for shape in self.shapes.keys():
-            print(shape)
+        for key in self.shapes.keys():
+            print(f"Key: {key}, Shape: {self.shapes[key]}")
     
-    def printDetails(self):
-        
+    def printDetails(self):        
         for key in self.shapes.keys():
             self.shapes[key].printCoord()
     
     def getShape(self,key):
-        return self.shapes[key]
+        if key in self.shapes:
+            return self.shapes[key]
+        else:
+            raise KeyError(f"Shape with key {key} does not exist.")

@@ -81,9 +81,10 @@ class Line():
     def isParallel(self, other_line):
         if self.slope() == other_line.slope():
             print(f'A linha {self._n} e a linha {other_line._n} são paralelas')
+            return True
         else:
             print(f'A linha {self._n} e a linha {other_line._n} não são paralelas')
-        return
+            return False
         
 class Circle(Point):
     
